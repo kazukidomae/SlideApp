@@ -17,7 +17,6 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         vp = (ViewPager)findViewById(R.id.pager);
-        //PagerAdapter pa = new PagerAdapter(getSupportFragmentManager());
         PagerAdapter pa = new com.example.doumaekazuki.slideapp.PagerAdapter(getSupportFragmentManager());
         vp.setAdapter(pa);
     }
