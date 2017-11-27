@@ -18,12 +18,10 @@ public class PagerAdapter extends FragmentStatePagerAdapter{
 
         fragments = new Fragment[3];
 
+        // フラグメント生成
         for(int i=0 ; i<3 ; i++){
-            fragments[i] = new Page1Fragment();
+            fragments[i] = new Page2Fragment();
         }
-//        fragments[0] = new Page1Fragment();
-//        fragments[1] = new Page2Fragment();
-//        fragments[2] = new Page3Fragment();
     }
 
     @Override
@@ -34,6 +32,6 @@ public class PagerAdapter extends FragmentStatePagerAdapter{
     // ページ数
     @Override
     public int getCount() {
-        return 2;
+        return fragments.length;
     }
 }
