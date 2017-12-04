@@ -1,15 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/pager"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.doumaekazuki.slideapp.MainActivity">
+    tools:context="com.example.doumaekazuki.slideapp.MainActivity"
+    android:weightSum="1"
+    android:background="#C0C0C0">
+
+
+    <!-- スライド -->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        tools:context="com.example.doumaekazuki.slideapp.MainActivity"
+        android:layout_weight="1.01">
 
         <android.support.v4.view.PagerTabStrip
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"/>
-</android.support.v4.view.ViewPager>
+            android:layout_weight="1"
+            android:clickable="true" />
+
+    </android.support.v4.view.ViewPager>
+
+    <LinearLayout
+        android:id="@+id/Test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"></LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <!-- スライドアップロード -->
+        <ImageButton
+            android:id="@+id/SlideButton"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:scaleType="fitCenter"
+            android:background="@null"
+            android:src="@drawable/imageicon"
+            android:layout_weight="0.05" />
+
+        <!-- エディット画面 -->
+        <!--<Button-->
+            <!--android:id="@+id/EditButton"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="@string/button_name_edit" />-->
+    </LinearLayout>
+</LinearLayout>

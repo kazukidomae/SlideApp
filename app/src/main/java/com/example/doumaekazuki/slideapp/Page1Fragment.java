@@ -15,6 +15,9 @@ import android.widget.TextView;
 public class Page1Fragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.page1, container, false);
+        View view = inflater.inflate(R.layout.page1, container, false);
+        TextView tv = (TextView)view.findViewById(R.id.textView1);
+        tv.setText("テスト");
+        return view;
     }
 }
