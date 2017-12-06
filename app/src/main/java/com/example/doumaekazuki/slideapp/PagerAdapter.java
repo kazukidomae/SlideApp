@@ -1,10 +1,9 @@
 package com.example.doumaekazuki.slideapp;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.ViewGroup;
 
 
 /**
@@ -18,18 +17,22 @@ public class PagerAdapter extends FragmentStatePagerAdapter{
     public PagerAdapter(FragmentManager fm) {
         super(fm);
 
-        fragments = new Fragment[3];
+        fragments = new Fragment[2];
 
         // フラグメント生成
-        for(int i=0 ; i<3 ; i++){
-            fragments[i] = new Page2Fragment();
-
+        for(int i=0 ; i<2 ; i++){
+            fragments[i] = new PageFragment();
         }
     }
 
     @Override
     public Fragment getItem(int id) {
         return fragments[id];
+    }
+
+    @Override
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        super.setPrimaryItem(container, position, object);
     }
 
     // ページ数
