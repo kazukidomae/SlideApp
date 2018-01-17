@@ -1,9 +1,15 @@
 package com.example.doumaekazuki.slideapp;
 
+import android.content.Context;
+
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -12,32 +18,26 @@ import android.view.ViewGroup;
 
 public class PagerAdapter extends FragmentStatePagerAdapter{
 
-    private Fragment[] fragments;
+    public List<String> images = new ArrayList<>();
 
-    public PagerAdapter(FragmentManager fm) {
+    public PagerAdapter(FragmentManager fm,List<String> images) {
         super(fm);
-
-        fragments = new Fragment[2];
-
-        // フラグメント生成
-        for(int i=0 ; i<2 ; i++){
-            fragments[i] = new PageFragment();
-        }
+        this.images = images;
     }
 
     @Override
-    public Fragment getItem(int id) {
-        return fragments[id];
+    public Fragment getItem(int position) {
+        return PageFragment.newInstance(images.get(position));
     }
 
     @Override
-    public void setPrimaryItem(ViewGroup container, int position, Object object) {
-        super.setPrimaryItem(container, position, object);
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        super.destroyItem(container, position, object);
     }
 
     // ページ数
     @Override
     public int getCount() {
-        return fragments.length;
+        return images.size();
     }
 }

@@ -29,7 +29,7 @@
     </android.support.v4.view.ViewPager>
 
     <LinearLayout
-        android:id="@+id/Test"
+        android:id="@+id/Empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"></LinearLayout>
@@ -43,19 +43,26 @@
         <!-- スライドアップロード -->
         <ImageButton
             android:id="@+id/SlideButton"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:scaleType="fitCenter"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:background="@null"
-            android:src="@drawable/imageicon"
-            android:layout_weight="0.05" />
-
-        <!-- エディット画面 -->
-        <!--<Button-->
-            <!--android:id="@+id/EditButton"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:text="@string/button_name_edit" />-->
+            android:scaleType="fitCenter"
+            android:src="@drawable/uploadicon" />
+        <!-- 画像編集 -->
+        <ImageButton
+            android:id="@+id/EditButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            android:src="@drawable/editicon" />
+        <!-- 画像編集 -->
+        <ImageButton
+            android:id="@+id/wallpaperButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            android:src="@drawable/wallpapericon" />
     </LinearLayout>
 </LinearLayout>
