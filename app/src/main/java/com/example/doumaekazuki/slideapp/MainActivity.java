@@ -35,7 +35,7 @@ public class MainActivity extends FragmentActivity {
     PagerAdapter pa;
     public List<String> images = new ArrayList<String>();
     WallpaperManager wm;
-    private static final int CHOOSE_PHOTO_REQUEST_CODE = 1000;
+    private static final int REQUEST_CODE = 1001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,41 +79,47 @@ public class MainActivity extends FragmentActivity {
     public View.OnClickListener slide = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.putExtra(EXTRA_ALLOW_MULTIPLE, true);
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Choose Photo"), CHOOSE_PHOTO_REQUEST_CODE);
+            Intent intent = new Intent();
+            intent.setType("*/*");
+            intent.putExtra(EXTRA_ALLOW_MULTIPLE, true);
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            startActivityForResult(intent, REQUEST_CODE);
         }
     };
 
-    // 画像登録
+    // 画像List作成
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        //画像List初期化
-        images.clear();
-
-        int itemCount = data.getClipData().getItemCount();
-        for(int i = 0;i<itemCount;i++){
-            ClipData.Item url = data.getClipData().getItemAt(i);
-            images.add(url.getUri().toString());
+        if(data.getClipData() != null && requestCode == 1001) {
+            // 画像List初期化
+            images.clear();
+            int itemCount = data.getClipData().getItemCount();
+            // 画像List作成
+            for (int i = 0; i < itemCount; i++) {
+                ClipData.Item url = data.getClipData().getItemAt(i);
+                images.add(url.getUri().toString());
+            }
+            pa = new com.example.doumaekazuki.slideapp.PagerAdapter(getSupportFragmentManager(), images);
+            vp = (ViewPager) findViewById(R.id.pager);
+            vp.setAdapter(pa);
+            vp.setCurrentItem(0);
         }
-
-        pa = new com.example.doumaekazuki.slideapp.PagerAdapter(getSupportFragmentManager(),images);
-        vp = (ViewPager)findViewById(R.id.pager);
-
-        vp.setAdapter(pa);
-        vp.setCurrentItem(0);
     }
 
     // 画像編集
     public View.OnClickListener edit = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-        Intent intent = new Intent(getApplication(), PaintActivity.class);
-        startActivity(intent);
+
+            if(!images.isEmpty()) {
+                Intent intent = new Intent(getApplication(), PaintActivity.class);
+                // 編集画像
+                intent.putExtra("editImage", images.get(vp.getCurrentItem()));
+                startActivity(intent);
+            }
         }
     };
 
@@ -121,17 +127,20 @@ public class MainActivity extends FragmentActivity {
     public View.OnClickListener wallpaper = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-        Uri uri = Uri.parse(images.get(vp.getCurrentItem()));
-        DialogFragment di = new DialogMessage();
-        di.show(getFragmentManager(),"");
-        try {
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
-            Bitmap test = Bitmap.createScaledBitmap(bitmap,480,640,true);
-            wm.setBitmap(bitmap);
-            wm.setBitmap(test);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+            if(!images.isEmpty()) {
+                Uri uri = Uri.parse(images.get(vp.getCurrentItem()));
+                DialogFragment di = new DialogMessage();
+                di.show(getFragmentManager(), "");
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                    Bitmap test = Bitmap.createScaledBitmap(bitmap, 480, 640, true);
+                    wm.setBitmap(bitmap);
+                    wm.setBitmap(test);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     };
 }

@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     android:orientation="vertical"
-    tools:context="com.example.doumaekazuki.slideapp.MainActivity"
     android:weightSum="1"
-    android:background="#C0C0C0">
+    tools:context="com.example.doumaekazuki.slideapp.MainActivity">
 
 
     <!-- スライド -->
@@ -16,9 +15,9 @@
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_weight="1.01"
         android:orientation="vertical"
-        tools:context="com.example.doumaekazuki.slideapp.MainActivity"
-        android:layout_weight="1.01">
+        tools:context="com.example.doumaekazuki.slideapp.MainActivity">
 
         <android.support.v4.view.PagerTabStrip
             android:layout_width="match_parent"
@@ -37,32 +36,54 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1">
+        android:orientation="horizontal">
 
         <!-- スライドアップロード -->
         <ImageButton
             android:id="@+id/SlideButton"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
             android:background="@null"
+            android:padding="15dp"
             android:scaleType="fitCenter"
             android:src="@drawable/uploadicon" />
+
         <!-- 画像編集 -->
         <ImageButton
             android:id="@+id/EditButton"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
             android:background="@null"
+            android:padding="15dp"
             android:scaleType="fitCenter"
             android:src="@drawable/editicon" />
+
         <!-- 画像編集 -->
         <ImageButton
             android:id="@+id/wallpaperButton"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
             android:background="@null"
+            android:padding="15dp"
             android:scaleType="fitCenter"
             android:src="@drawable/wallpapericon" />
+
+        <!-- 写真削除 -->
+        <ImageButton
+            android:id="@+id/deleteButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:padding="15dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/deleteicon" />
     </LinearLayout>
 </LinearLayout>
