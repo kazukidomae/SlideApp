@@ -152,7 +152,7 @@ public class MainActivity extends FragmentActivity {
     public View.OnClickListener deleteImage = (new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            
+
         }
     });
 }
