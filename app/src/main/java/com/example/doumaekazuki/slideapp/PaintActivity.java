@@ -53,20 +53,23 @@ public class PaintActivity extends Activity {
         ImageButton returnBtn = (ImageButton)findViewById(R.id.returnButton);
         returnBtn.setOnClickListener(returnActivity);
 
-        // 線切れ変えボタン
+        // Paintメニューボタン
         ImageButton paintBtn = (ImageButton)findViewById(R.id.paintButton);
         paintBtn.setOnClickListener(paintChange);
 
-        // 線カスタマイズ
+        // 保存ボタン
+        ImageButton storageBtn = (ImageButton)findViewById(R.id.storageButton);
+        storageBtn.setOnClickListener(storageImage);
+
+        // 線色カスタマイズ
         paintCustomer = findViewById(R.id.paintCustomer);
 
-        //アニメーション
+        // アニメーション
         inAnimation = (Animation) AnimationUtils.loadAnimation(this, R.anim.in_animation);
         outAnimation= (Animation) AnimationUtils.loadAnimation(this, R.anim.out_animation);
 
         // 選択色取得
         rgColor = (RadioGroup)findViewById(R.id.colorPicker);
-
         rgColor.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int checkedId) {
@@ -80,8 +83,8 @@ public class PaintActivity extends Activity {
             }
         });
 
+        // 線幅取得
         rgStroke = (RadioGroup)findViewById(R.id.strokeWidth);
-
         rgStroke.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int checkedId) {
@@ -120,7 +123,7 @@ public class PaintActivity extends Activity {
         return v;
     }
 
-    //Activity切り替え
+    //MainActivityへ戻る
     public View.OnClickListener returnActivity = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -142,6 +145,14 @@ public class PaintActivity extends Activity {
                 paintCustomer.startAnimation(outAnimation);
                 paintCustomer.setVisibility(View.GONE);
             }
+        }
+    });
+
+    // 編集画像保存
+    public View.OnClickListener storageImage = (new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            esf.storage();
         }
     });
 

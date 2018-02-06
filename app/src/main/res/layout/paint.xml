@@ -7,7 +7,7 @@
     tools:context="com.example.doumaekazuki.slideapp.PaintActivity"
     android:weightSum="1"
     android:background="#ffffff">
-    
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,8 +27,9 @@
             android:layout_alignParentStart="true"
             android:background="#9fffc993"
             android:gravity="center"
-            android:orientation="vertical">
-            <!--android:visibility="gone"-->
+            android:orientation="vertical"
+            android:visibility="gone">
+
 
             <!-- 色変更 -->
             <HorizontalScrollView
@@ -40,7 +41,8 @@
                     android:id="@+id/colorPicker"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    >
 
                     <RadioButton
                         android:id="@+id/color1"
@@ -49,8 +51,8 @@
                         android:layout_margin="10dp"
                         android:layout_weight="1"
                         android:background="#ffffff"
-                        android:checked="true"
-                        />
+                        android:button="@null"
+                        android:checked="true" />
 
                     <RadioButton
                         android:id="@+id/color2"
@@ -58,14 +60,16 @@
                         android:layout_height="35dp"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-                        android:background="#000000" />
+                        android:background="#000000"
+                        android:button="@null" />
 
                     <RadioButton
                         android:layout_width="35dp"
                         android:layout_height="35dp"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-                        android:background="#ff0000" />
+                        android:background="#ff0000"
+                        android:button="@null"/>
 
                     <RadioButton
                         android:id="@+id/color4"
@@ -73,7 +77,8 @@
                         android:layout_height="35dp"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-                        android:background="#00ff00" />
+                        android:background="#00ff00"
+                        android:button="@null"/>
 
                     <RadioButton
                         android:id="@+id/color5"
@@ -81,7 +86,8 @@
                         android:layout_height="35dp"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-                        android:background="#00fa9a" />
+                        android:background="#00fa9a"
+                        android:button="@null"/>
 
                     <RadioButton
                         android:id="@+id/color6"
@@ -89,7 +95,8 @@
                         android:layout_height="35dp"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-                        android:background="#0000ff" />
+                        android:background="#0000ff"
+                        android:button="@null"/>
 
                     <RadioButton
                         android:id="@+id/color7"
@@ -97,7 +104,8 @@
                         android:layout_height="35dp"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-                        android:background="#00ffff" />
+                        android:background="#00ffff"
+                        android:button="@null"/>
 
                     <RadioButton
                         android:id="@+id/color8"
@@ -105,7 +113,8 @@
                         android:layout_height="35dp"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-                        android:background="#ffff00" />
+                        android:background="#ffff00"
+                        android:button="@null"/>
 
                     <RadioButton
                         android:id="@+id/color9"
@@ -113,7 +122,8 @@
                         android:layout_height="35dp"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-                        android:background="#ff6600" />
+                        android:background="#ff6600"
+                        android:button="@null"/>
                 </RadioGroup>
             </HorizontalScrollView>
 
@@ -129,14 +139,18 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_margin="10dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:background="#ffffff"
+                    android:button="@null"/>
 
                 <RadioButton
                     android:id="@+id/strokeWidthS"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_margin="10dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:background="#ffffff"
+                    android:button="@null"/>
 
                 <RadioButton
                     android:id="@+id/strokeWidthM"
@@ -144,21 +158,27 @@
                     android:layout_height="35dp"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:checked="true" />
+                    android:checked="true"
+                    android:background="#ffffff"
+                    android:button="@null"/>
 
                 <RadioButton
                     android:id="@+id/strokeWidthL"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_margin="10dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:background="#ffffff"
+                    android:button="@null"/>
 
                 <RadioButton
                     android:id="@+id/strokeWidthLL"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_margin="10dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:background="#ffffff"
+                    android:button="@null"/>
             </RadioGroup>
         </LinearLayout>
 
@@ -181,7 +201,7 @@
             android:scaleType="fitCenter"
             android:src="@drawable/returnicon" />
 
-        <!-- MainActivityへ戻るボタン -->
+        <!-- Paint設定ボタン -->
         <ImageButton
             android:id="@+id/paintButton"
             android:layout_width="60dp"
@@ -191,6 +211,17 @@
             android:padding="15dp"
             android:scaleType="fitCenter"
             android:src="@drawable/painticon" />
+
+        <!-- 保存ボタン -->
+        <ImageButton
+            android:id="@+id/storageButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:padding="15dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/storageicon" />
     </LinearLayout>
 
 </LinearLayout>

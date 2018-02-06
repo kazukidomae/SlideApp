@@ -54,6 +54,10 @@ public class MainActivity extends FragmentActivity {
         //背景変更ボタン処理
         ImageButton wallpaperBtn = (ImageButton)findViewById(R.id.wallpaperButton);
         wallpaperBtn.setOnClickListener(wallpaper);
+
+        //削除ボタン処理
+        ImageButton deleteBtn = (ImageButton)findViewById(R.id.deleteButton);
+        deleteBtn.setOnClickListener(deleteImage);
     }
 
     public void setItem(int item){
@@ -143,4 +147,12 @@ public class MainActivity extends FragmentActivity {
             }
         }
     };
+
+    // Fragment削除
+    public View.OnClickListener deleteImage = (new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            
+        }
+    });
 }
