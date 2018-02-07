@@ -30,10 +30,6 @@ public class PaintActivity extends Activity {
 
     EditSurfaceView esf;
 
-    View paintCustomer;
-    Animation inAnimation;
-    Animation outAnimation;
-
     RadioGroup rgColor;
     RadioGroup rgStroke;
 
@@ -53,7 +49,7 @@ public class PaintActivity extends Activity {
         ImageButton returnBtn = (ImageButton)findViewById(R.id.returnButton);
         returnBtn.setOnClickListener(returnActivity);
 
-        // Paintメニューボタン
+        // 線カスタマイズメニューボタン
         ImageButton paintBtn = (ImageButton)findViewById(R.id.paintButton);
         paintBtn.setOnClickListener(paintChange);
 
@@ -61,14 +57,7 @@ public class PaintActivity extends Activity {
         ImageButton storageBtn = (ImageButton)findViewById(R.id.storageButton);
         storageBtn.setOnClickListener(storageImage);
 
-        // 線色カスタマイズ
-        paintCustomer = findViewById(R.id.paintCustomer);
-
-        // アニメーション
-        inAnimation = (Animation) AnimationUtils.loadAnimation(this, R.anim.in_animation);
-        outAnimation= (Animation) AnimationUtils.loadAnimation(this, R.anim.out_animation);
-
-        // 選択色取得
+        // 線色取得
         rgColor = (RadioGroup)findViewById(R.id.colorPicker);
         rgColor.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -123,7 +112,7 @@ public class PaintActivity extends Activity {
         return v;
     }
 
-    //MainActivityへ戻る
+    // MainActivityへ戻る
     public View.OnClickListener returnActivity = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -135,20 +124,12 @@ public class PaintActivity extends Activity {
     public View.OnClickListener paintChange = (new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if(paintCustomer.getVisibility() == View.GONE){
-                // 開く
-                paintCustomer.startAnimation(inAnimation);
-                paintCustomer.setVisibility(View.VISIBLE);
-            }
-            else {
-                // 閉じる
-                paintCustomer.startAnimation(outAnimation);
-                paintCustomer.setVisibility(View.GONE);
-            }
+            MenuAnimation mAnim = new MenuAnimation(getApplicationContext());
+            mAnim.animation(findViewById(R.id.paintCustomer));
         }
     });
 
-    // 編集画像保存
+    // 写真保存
     public View.OnClickListener storageImage = (new View.OnClickListener() {
         @Override
         public void onClick(View view) {

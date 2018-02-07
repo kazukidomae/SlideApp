@@ -21,6 +21,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import java.io.IOException;
@@ -41,23 +44,32 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        wm = WallpaperManager.getInstance(this);
 
-        //slideボタン処理
+        // 写真ボタン処理
         ImageButton slideBtn = (ImageButton)findViewById(R.id.SlideButton);
-        slideBtn.setOnClickListener(slide);
+        slideBtn.setOnClickListener(imageSetter);
 
-        //画像編集ボタン
+        // 写真List新規作成ボタン
+        Button newBtn = (Button)findViewById(R.id.newImageSet);
+        newBtn.setOnClickListener(galleryOpen);
+
+        // 写真追加ボタン
+        Button addBtn = (Button)findViewById(R.id.imageAdd);
+
+
+        // 写真編集ボタン
         ImageButton editBtn = (ImageButton)findViewById(R.id.EditButton);
         editBtn.setOnClickListener(edit);
 
-        //背景変更ボタン処理
+        // 背景変更ボタン
         ImageButton wallpaperBtn = (ImageButton)findViewById(R.id.wallpaperButton);
         wallpaperBtn.setOnClickListener(wallpaper);
 
-        //削除ボタン処理
+        // 削除ボタン
         ImageButton deleteBtn = (ImageButton)findViewById(R.id.deleteButton);
         deleteBtn.setOnClickListener(deleteImage);
+
+        wm = WallpaperManager.getInstance(this);
     }
 
     public void setItem(int item){
@@ -70,6 +82,15 @@ public class MainActivity extends FragmentActivity {
         return true;
     }
 
+    // メニューアニメーション
+    public View.OnClickListener imageSetter = (new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            MenuAnimation mAnim = new MenuAnimation(getApplicationContext());
+            mAnim.animation(findViewById(R.id.imageSet));
+        }
+    });
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -80,24 +101,22 @@ public class MainActivity extends FragmentActivity {
     }
 
     // ギャラリー呼び出し
-    public View.OnClickListener slide = new View.OnClickListener() {
+    public View.OnClickListener galleryOpen = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             Intent intent = new Intent();
-            intent.setType("*/*");
-            intent.putExtra(EXTRA_ALLOW_MULTIPLE, true);
+            intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            startActivityForResult(intent, REQUEST_CODE);
+            intent.putExtra(EXTRA_ALLOW_MULTIPLE, true);
+            startActivityForResult(intent,REQUEST_CODE);
         }
     };
 
-    // 画像List作成
+    // 写真List作成
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if(data.getClipData() != null && requestCode == 1001) {
+        if(requestCode == REQUEST_CODE && resultCode ==RESULT_OK){
             // 画像List初期化
             images.clear();
             int itemCount = data.getClipData().getItemCount();
@@ -113,11 +132,10 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    // 画像編集
+    // 写真編集
     public View.OnClickListener edit = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
             if(!images.isEmpty()) {
                 Intent intent = new Intent(getApplication(), PaintActivity.class);
                 // 編集画像
@@ -131,16 +149,12 @@ public class MainActivity extends FragmentActivity {
     public View.OnClickListener wallpaper = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
             if(!images.isEmpty()) {
                 Uri uri = Uri.parse(images.get(vp.getCurrentItem()));
                 DialogFragment di = new DialogMessage();
                 di.show(getFragmentManager(), "");
                 try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                    Bitmap test = Bitmap.createScaledBitmap(bitmap, 480, 640, true);
-                    wm.setBitmap(bitmap);
-                    wm.setBitmap(test);
+                    wm.setBitmap(Bitmap.createScaledBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), uri), 480, 640, true));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -148,7 +162,7 @@ public class MainActivity extends FragmentActivity {
         }
     };
 
-    // Fragment削除
+    // 写真削除
     public View.OnClickListener deleteImage = (new View.OnClickListener() {
         @Override
         public void onClick(View view) {

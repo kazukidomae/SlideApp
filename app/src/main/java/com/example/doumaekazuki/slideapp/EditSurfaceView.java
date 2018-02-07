@@ -47,8 +47,8 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     String imagePass;
     Uri uri;
-    // 描画線設定
-    int r,g,b,sw;
+
+    int r,g,b,sw; // 描画線設定
 
     // 途中経過
     private Deque<Path> mUndoStack = new ArrayDeque<Path>();
@@ -81,7 +81,7 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         paint();
     }
 
-    // RGB値セッター
+    // 線色セッター
     public void setR(int r) {
         this.r = r;
     }
@@ -97,10 +97,11 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         this.sw = sw;
     }
 
-    //ペイント設定
+    // 線色幅設定
     public void paint(){
         setZOrderMediaOverlay(true);
         holder.setFormat(PixelFormat.TRANSPARENT);
+
         mPaint = new Paint();
         mPaint.setColor(Color.rgb(r,g,b));
         mPaint.setStyle(Paint.Style.STROKE);
@@ -126,14 +127,11 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     private void clearLastDrawBitmap() {
 
         if (testBitmap == null) {
-
-            test = Bitmap.createBitmap(72,72, Bitmap.Config.ARGB_8888);
-
+            test = Bitmap.createBitmap(480,640, Bitmap.Config.ARGB_8888);
             // Bitmap変換
             uri = Uri.parse(imagePass);
             try {
                 testBitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(),uri);
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -149,7 +147,7 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         }
     }
 
-    // 描画
+    // タッチ位置取得
     public void draw(MotionEvent event){
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -184,7 +182,7 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
 
 
-    // 線描画
+    // 描画処理
     private void drawLine(Path path) {
         // ロックしてキャンバスを取得
         Canvas drawCanvas = holder.lockCanvas();
@@ -195,6 +193,7 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         drawCanvas.drawBitmap(testBitmap, 0, 0, null);
         // パスを描画
         drawCanvas.drawPath(path, mPaint);
+
         // ロックを外す
         holder.unlockCanvasAndPost(drawCanvas);
     }
@@ -203,11 +202,9 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         if (mUndoStack.isEmpty()) {
             return;
         }
-
         // undoスタックからパスを取り出し、redoスタックに格納します。
         Path lastUndoPath = mUndoStack.removeLast();
         mRedoStack.addLast(lastUndoPath);
-
         // ロックしてキャンバスを取得します。
         Canvas canvas = holder.lockCanvas();
 
@@ -216,7 +213,6 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
         // 描画状態を保持するBitmapをクリアします。
         clearLastDrawBitmap();
-
         // パスを描画します。
         for (Path path : mUndoStack) {
             canvas.drawPath(path, mPaint);
@@ -230,7 +226,6 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         if (mRedoStack.isEmpty()) {
             return;
         }
-
         // redoスタックからパスを取り出し、undoスタックに格納します。
         Path lastRedoPath = mRedoStack.removeLast();
         mUndoStack.addLast(lastRedoPath);
@@ -242,22 +237,19 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     public void reset() {
         mUndoStack.clear();
         mRedoStack.clear();
-
         clearLastDrawBitmap();
-
         Canvas canvas = holder.lockCanvas();
         canvas.drawColor(0, PorterDuff.Mode.CLEAR);
         holder.unlockCanvasAndPost(canvas);
     }
 
-
     // 画像保存
     public void storage(){
-        File dataDir;
-        dataDir = new File(Environment.getExternalStorageDirectory(), "sampleDir");
+
+        File dataDir = new File(Environment.getExternalStorageDirectory(), "sampleDir");
         dataDir.mkdirs();
-        String a = String.valueOf(new Random().nextInt(100000000));
-        File filePath = new File(dataDir,"sample"+a+".jpg");
+        String fileNumber = String.valueOf(new Random().nextInt(100000000));
+        File filePath = new File(dataDir,"sample"+fileNumber+".jpg");
         OutputStream os= null;
         try {
             os = new FileOutputStream(filePath);
@@ -265,7 +257,7 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
             e.printStackTrace();
         }
 
-        testBitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+        test.compress(Bitmap.CompressFormat.JPEG, 100, os);
 
         try {
             ContentValues values = new ContentValues();
