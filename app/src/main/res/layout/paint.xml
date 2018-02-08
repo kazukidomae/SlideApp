@@ -16,7 +16,9 @@
         <SurfaceView
             android:id="@+id/editArea"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
 
         <!-- 描画線カスタムメニュー -->
         <LinearLayout
@@ -27,8 +29,9 @@
             android:layout_alignParentStart="true"
             android:background="#9fffc993"
             android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:orientation="vertical">
+            <!--android:visibility="gone">-->
+
 
 
             <!-- 色変更 -->
@@ -46,11 +49,12 @@
 
                     <RadioButton
                         android:id="@+id/color1"
+
+                        style="@style/radioButtonStyle"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-                        android:background="#ffffff"
                         android:button="@null"
                         android:checked="true" />
 
