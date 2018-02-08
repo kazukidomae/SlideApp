@@ -41,6 +41,4 @@ public class PagerAdapter extends FragmentStatePagerAdapter{
         return images.size();
     }
 
-    
-
 }

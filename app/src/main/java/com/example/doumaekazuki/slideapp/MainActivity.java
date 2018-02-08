@@ -56,7 +56,6 @@ public class MainActivity extends FragmentActivity {
         // 写真追加ボタン
         Button addBtn = (Button)findViewById(R.id.imageAdd);
 
-
         // 写真編集ボタン
         ImageButton editBtn = (ImageButton)findViewById(R.id.EditButton);
         editBtn.setOnClickListener(edit);
@@ -125,9 +124,7 @@ public class MainActivity extends FragmentActivity {
                 ClipData.Item url = data.getClipData().getItemAt(i);
                 images.add(url.getUri().toString());
             }
-            pa = new com.example.doumaekazuki.slideapp.PagerAdapter(getSupportFragmentManager(), images);
-            vp = (ViewPager) findViewById(R.id.pager);
-            vp.setAdapter(pa);
+            adapterSet();
             vp.setCurrentItem(0);
         }
     }
@@ -154,7 +151,7 @@ public class MainActivity extends FragmentActivity {
                 DialogFragment di = new DialogMessage();
                 di.show(getFragmentManager(), "");
                 try {
-                    wm.setBitmap(Bitmap.createScaledBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), uri), 480, 640, true));
+                    wm.setBitmap(Bitmap.createScaledBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), uri), wm.getDesiredMinimumWidth(), wm.getDesiredMinimumHeight(), true));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -166,7 +163,23 @@ public class MainActivity extends FragmentActivity {
     public View.OnClickListener deleteImage = (new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            if(images.size()>1) {
+                int fragmentPosition = vp.getCurrentItem();
+                // 画像削除
+                images.remove(fragmentPosition);
+                adapterSet();
+                vp.setCurrentItem(fragmentPosition-1);
 
+//                images.clear();
+//                adapterSet();
+            }
         }
     });
+
+    // アダプターセット
+    public void adapterSet(){
+        pa = new com.example.doumaekazuki.slideapp.PagerAdapter(getSupportFragmentManager(), images);
+        vp = (ViewPager) findViewById(R.id.pager);
+        vp.setAdapter(pa);
+    }
 }

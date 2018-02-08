@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PixelFormat;
@@ -40,10 +41,12 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     SurfaceHolder holder;
 
     Paint mPaint;
-    Path mPath = new Path();
+    Path mPath;
 
     Bitmap testBitmap;
     Canvas testCanvas;
+
+    Canvas drawCanvas;
 
     String imagePass;
     Uri uri;
@@ -56,6 +59,8 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     // テスト
     Bitmap test;
+
+    int sizeX,sizeY;
 
     public EditSurfaceView(Context context){
         super(context);
@@ -112,39 +117,46 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
-        clearLastDrawBitmap();
+
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int format, int width, int height) {
+        sizeX = width;
+        sizeY = height;
+        clearLastDrawBitmap();
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
         testBitmap.recycle();
+        test.recycle();
     }
 
     private void clearLastDrawBitmap() {
 
         if (testBitmap == null) {
-            test = Bitmap.createBitmap(480,640, Bitmap.Config.ARGB_8888);
             // Bitmap変換
             uri = Uri.parse(imagePass);
             try {
                 testBitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(),uri);
+                //test = Bitmap.createScaledBitmap(testBitmap.copy(Bitmap.Config.ARGB_8888,true), testBitmap.getWidth(), testBitmap.getHeight(), false);
+                test = Bitmap.createScaledBitmap(testBitmap.copy(Bitmap.Config.ARGB_8888,true), sizeX, sizeY, true);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+
         if (testCanvas == null) {
             testCanvas = new Canvas(test);
-            Paint paint = new Paint();
-            paint.setFilterBitmap(true);
-            // 編集画像セット
-            testCanvas = holder.lockCanvas();
-            testCanvas.drawBitmap(testBitmap,0,0,paint);
-            holder.unlockCanvasAndPost(testCanvas);
         }
+
+        //test = Bitmap.createScaledBitmap(test, testCanvas.getWidth(), testCanvas.getHeight(), false);
+        drawCanvas =  holder.lockCanvas();
+        // 位置調整
+        drawCanvas.translate((drawCanvas.getWidth()-test.getWidth())/2,(drawCanvas.getHeight()-test.getHeight())/2);
+        drawCanvas.drawBitmap(test,0,0,null);
+        holder.unlockCanvasAndPost(drawCanvas);
     }
 
     // タッチ位置取得
@@ -164,7 +176,7 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     }
 
     private void onTouchDown(float x, float y) {
-//        mPath = new Path();
+        mPath = new Path();
         mPath.moveTo(x, y);
     }
     private void onTouchMove(float x, float y) {
@@ -173,6 +185,7 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     }
     private void onTouchUp(float x, float y) {
         mPath.lineTo(x, y);
+
         drawLine(mPath);
         testCanvas.drawPath(mPath, mPaint);
 
@@ -181,19 +194,19 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     }
 
 
-
     // 描画処理
     private void drawLine(Path path) {
         // ロックしてキャンバスを取得
-        Canvas drawCanvas = holder.lockCanvas();
-        //testCanvas= holder.lockCanvas();
+        drawCanvas = holder.lockCanvas();
         // キャンバスをクリア
         drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
+        // 位置調整
+        drawCanvas.translate((drawCanvas.getWidth()-test.getWidth())/2,(drawCanvas.getHeight()-test.getHeight())/2);
+
         // 前回描画したビットマップをキャンバスに描画
-        drawCanvas.drawBitmap(testBitmap, 0, 0, null);
+        drawCanvas.drawBitmap(test, 0, 0, null);
         // パスを描画
         drawCanvas.drawPath(path, mPaint);
-
         // ロックを外す
         holder.unlockCanvasAndPost(drawCanvas);
     }
@@ -212,7 +225,7 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         canvas.drawColor(0, PorterDuff.Mode.CLEAR);
 
         // 描画状態を保持するBitmapをクリアします。
-        clearLastDrawBitmap();
+        //clearLastDrawBitmap();
         // パスを描画します。
         for (Path path : mUndoStack) {
             canvas.drawPath(path, mPaint);
@@ -231,13 +244,13 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         mUndoStack.addLast(lastRedoPath);
         // パスを描画します。
         drawLine(lastRedoPath);
-        testCanvas.drawPath(lastRedoPath, mPaint);
+//        testCanvas.drawPath(lastRedoPath, mPaint);
     }
 
     public void reset() {
         mUndoStack.clear();
         mRedoStack.clear();
-        clearLastDrawBitmap();
+        //clearLastDrawBitmap();
         Canvas canvas = holder.lockCanvas();
         canvas.drawColor(0, PorterDuff.Mode.CLEAR);
         holder.unlockCanvasAndPost(canvas);
