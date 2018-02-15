@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
@@ -27,34 +28,31 @@
             android:layout_height="100dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:background="#9fffc993"
+            android:background="@color/menuBackground"
             android:gravity="center"
-            android:orientation="vertical">
-            <!--android:visibility="gone">-->
-
-
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <!-- 色変更 -->
             <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:scrollbars="none">
 
                 <RadioGroup
                     android:id="@+id/colorPicker"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    >
+                    android:orientation="horizontal">
 
                     <RadioButton
                         android:id="@+id/color1"
-
-                        style="@style/radioButtonStyle"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
+                        android:background="@drawable/color1_style"
                         android:button="@null"
                         android:checked="true" />
 
@@ -64,16 +62,17 @@
                         android:layout_height="35dp"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-                        android:background="#000000"
+                        android:background="@drawable/color2_style"
                         android:button="@null" />
 
                     <RadioButton
+                        android:id="@+id/color3"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-                        android:background="#ff0000"
-                        android:button="@null"/>
+                        android:background="@drawable/color3_style"
+                        android:button="@null" />
 
                     <RadioButton
                         android:id="@+id/color4"
@@ -81,8 +80,8 @@
                         android:layout_height="35dp"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-                        android:background="#00ff00"
-                        android:button="@null"/>
+                        android:background="@drawable/color4_style"
+                        android:button="@null" />
 
                     <RadioButton
                         android:id="@+id/color5"
@@ -90,8 +89,8 @@
                         android:layout_height="35dp"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-                        android:background="#00fa9a"
-                        android:button="@null"/>
+                        android:background="@drawable/color5_style"
+                        android:button="@null" />
 
                     <RadioButton
                         android:id="@+id/color6"
@@ -99,8 +98,8 @@
                         android:layout_height="35dp"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-                        android:background="#0000ff"
-                        android:button="@null"/>
+                        android:background="@drawable/color6_style"
+                        android:button="@null" />
 
                     <RadioButton
                         android:id="@+id/color7"
@@ -108,8 +107,8 @@
                         android:layout_height="35dp"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-                        android:background="#00ffff"
-                        android:button="@null"/>
+                        android:background="@drawable/color7_style"
+                        android:button="@null" />
 
                     <RadioButton
                         android:id="@+id/color8"
@@ -117,8 +116,8 @@
                         android:layout_height="35dp"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-                        android:background="#ffff00"
-                        android:button="@null"/>
+                        android:background="@drawable/color8_style"
+                        android:button="@null" />
 
                     <RadioButton
                         android:id="@+id/color9"
@@ -126,67 +125,130 @@
                         android:layout_height="35dp"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-                        android:background="#ff6600"
-                        android:button="@null"/>
+                        android:background="@drawable/color9_style"
+                        android:button="@null" />
+
+                    <RadioButton
+                        android:id="@+id/color10"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/color10_style"
+                        android:button="@null" />
+
+                    <RadioButton
+                        android:id="@+id/color11"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/color11_style"
+                        android:button="@null" />
+
+                    <RadioButton
+                        android:id="@+id/color12"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/color12_style"
+                        android:button="@null" />
+
+                    <RadioButton
+                        android:id="@+id/color13"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/color13_style"
+                        android:button="@null" />
+
+                    <RadioButton
+                        android:id="@+id/color14"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/color14_style"
+                        android:button="@null" />
+
+                    <RadioButton
+                        android:id="@+id/color15"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/color15_style"
+                        android:button="@null" />
                 </RadioGroup>
             </HorizontalScrollView>
 
-            <!-- 太さ変更 -->
-            <RadioGroup
-                android:id="@+id/strokeWidth"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <RadioButton
-                    android:id="@+id/strokeWidthSS"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    android:background="#ffffff"
-                    android:button="@null"/>
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="68dp"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="35dp"
+                    android:paddingTop="15dp"
+                    android:src="@drawable/strokewidthicon" />
 
-                <RadioButton
-                    android:id="@+id/strokeWidthS"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    android:background="#ffffff"
-                    android:button="@null"/>
+                <SeekBar
+                    android:id="@+id/strokeWidthBar"
+                    android:layout_width="290dp"
+                    android:layout_height="match_parent"
+                    android:max="60"
+                    android:paddingLeft="0dp"
+                    android:paddingRight="0dp"
+                    android:progress="5"
+                    android:progressDrawable="@drawable/custom_progress"
+                    android:thumb="@drawable/custom_thumb" />
 
-                <RadioButton
-                    android:id="@+id/strokeWidthM"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    android:checked="true"
-                    android:background="#ffffff"
-                    android:button="@null"/>
+            </LinearLayout>
 
-                <RadioButton
-                    android:id="@+id/strokeWidthL"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    android:background="#ffffff"
-                    android:button="@null"/>
+            <!-- 太さ変更 -->
+        </LinearLayout>
 
-                <RadioButton
-                    android:id="@+id/strokeWidthLL"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    android:background="#ffffff"
-                    android:button="@null"/>
-            </RadioGroup>
+        <!-- 保存メニュー -->
+        <LinearLayout
+            android:id="@+id/storage"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/menuBackground"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/changeImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:text="差し替える"
+                android:textColor="@color/menuText"/>
+
+            <Button
+                android:id="@+id/saveImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:text="保存"
+                android:textColor="@color/menuText"/>
         </LinearLayout>
 
     </RelativeLayout>
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -204,6 +266,18 @@
             android:padding="15dp"
             android:scaleType="fitCenter"
             android:src="@drawable/returnicon" />
+
+        <!-- Paint設定ボタン -->
+        <ImageButton
+            android:id="@+id/undoButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:padding="15dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/undoicon" />
+
 
         <!-- Paint設定ボタン -->
         <ImageButton

@@ -10,7 +10,7 @@
     tools:context="com.example.doumaekazuki.slideapp.MainActivity">
 
 
-    <!-- スライド -->
+    <!-- 写真 -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,43 +31,105 @@
                 android:clickable="true" />
         </android.support.v4.view.ViewPager>
 
-
-    <LinearLayout
-        android:id="@+id/imageSet"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:background="#9fffc993"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
-        <Button
-            android:id="@+id/newImageSet"
+        <!-- 隠しエリアメニュー -->
+        <!-- 写真追加メニュー -->
+        <LinearLayout
+            android:id="@+id/imageSet"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@null"
-            android:text="新規作成" />
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/menuBackground"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            >
 
-        <Button
-            android:id="@+id/imageAdd"
+            <Button
+                android:id="@+id/newImageSet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:text="新規作成"
+                android:textColor="@color/menuText"/>
+
+            <Button
+                android:id="@+id/imageAdd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:text="写真を追加"
+                android:textColor="@color/menuText" />
+        </LinearLayout>
+
+        <!-- 削除メニュー -->
+        <LinearLayout
+            android:id="@+id/Delete"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@null"
-            android:text="写真を追加" />
-    </LinearLayout>
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/menuBackground"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            >
+            <Button
+                android:id="@+id/singleDelete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:text="一件削除"
+                android:textColor="@color/menuText"/>
+
+            <Button
+                android:id="@+id/allDelete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:text="全件削除"
+                android:textColor="@color/menuText"/>
+
+        </LinearLayout>
+
+        <!-- その他メニュー -->
+        <LinearLayout
+            android:id="@+id/otherwise"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/menuBackground"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            >
+            <Button
+                android:id="@+id/wallpaper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:text="壁紙に設定"
+                android:textColor="@color/menuText"/>
+
+        </LinearLayout>
     </RelativeLayout>
+
+
+    <!-- メニューボタンエリア -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <!-- スライドアップロード -->
+        <!-- 写真 -->
         <ImageButton
-            android:id="@+id/SlideButton"
+            android:id="@+id/imageButton"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_weight="1"
@@ -75,24 +137,11 @@
             android:background="@null"
             android:padding="15dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/uploadicon" />
-
-
-        <!-- 画像編集 -->
-        <ImageButton
-            android:id="@+id/EditButton"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:background="@null"
-            android:padding="15dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/editicon" />
+            android:src="@drawable/imageicon" />
 
         <!-- 画像編集 -->
         <ImageButton
-            android:id="@+id/wallpaperButton"
+            android:id="@+id/drawButton"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_weight="1"
@@ -100,7 +149,7 @@
             android:background="@null"
             android:padding="15dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/wallpapericon" />
+            android:src="@drawable/drawicon" />
 
         <!-- 写真削除 -->
         <ImageButton
@@ -113,5 +162,19 @@
             android:padding="15dp"
             android:scaleType="fitCenter"
             android:src="@drawable/deleteicon" />
+
+        <!-- その他 -->
+        <ImageButton
+            android:id="@+id/otherwiseButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:padding="15dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/otherwiseicon" />
+
+
     </LinearLayout>
 </LinearLayout>
