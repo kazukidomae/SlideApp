@@ -28,9 +28,11 @@ public class MainActivity extends FragmentActivity {
     PagerAdapter pa;
     View menuView = null;
 
-    public List<String> images = new ArrayList<String>();
+    public static List<String> images = new ArrayList<String>();
+    private static int changeNumber;
     WallpaperManager wm;
     private static final int REQUEST_CODE = 1001;
+    private static final int REQUEST_PAINT = 1002;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,9 @@ public class MainActivity extends FragmentActivity {
         // 全件削除ボタン
         Button alBtn = (Button)findViewById(R.id.allDelete);
         alBtn.setOnClickListener(deleteImage);
+        // 壁紙変更
+        Button wallpaperBtn = (Button)findViewById(R.id.wallpaper);
+        wallpaperBtn.setOnClickListener(wallpaper);
 
         // メニューボタンエリア
         // 写真ボタン
@@ -58,12 +63,12 @@ public class MainActivity extends FragmentActivity {
         // 写真編集ボタン
         ImageButton editBtn = (ImageButton)findViewById(R.id.drawButton);
         editBtn.setOnClickListener(edit);
-        // 背景変更ボタン
-        ImageButton wallpaperBtn = (ImageButton)findViewById(R.id.wallpaperButton);
-        wallpaperBtn.setOnClickListener(wallpaper);
         // 削除ボタン
         ImageButton deleteBtn = (ImageButton)findViewById(R.id.deleteButton);
         deleteBtn.setOnClickListener(deleteMenuOpen);
+        // その他ボタン
+        ImageButton otherwiseBtn = (ImageButton)findViewById(R.id.otherwiseButton);
+        otherwiseBtn.setOnClickListener(otherwiseMenuOpen);
 
         wm = WallpaperManager.getInstance(this);
     }
@@ -87,13 +92,19 @@ public class MainActivity extends FragmentActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     // 写真メニュー表示
     public View.OnClickListener ImageSetMenuOpen = (new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            //menuView = findViewById(R.id.imageSet);
             menuOpen(findViewById(R.id.imageSet));
+        }
+    });
+
+    // 削除メニュー表示
+    public View.OnClickListener otherwiseMenuOpen = (new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            menuOpen(findViewById(R.id.otherwise));
         }
     });
 
@@ -160,8 +171,10 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        // ギャラリーからのResult
         if(requestCode == REQUEST_CODE && resultCode ==RESULT_OK){
+
+            System.out.println("aaa"+"通過");
 
             // 複数選択
             if(data.getClipData() != null){
@@ -180,6 +193,13 @@ public class MainActivity extends FragmentActivity {
             adapterSet();
             vp.setCurrentItem(0);
         }
+
+        // PaintActivityからResult
+        else if(requestCode == REQUEST_PAINT){
+            adapterSet();
+            vp.setCurrentItem(changeNumber);
+        }
+
     }
 
     // 写真編集
@@ -190,7 +210,10 @@ public class MainActivity extends FragmentActivity {
                 Intent intent = new Intent(getApplication(), PaintActivity.class);
                 // 編集画像
                 intent.putExtra("editImage", images.get(vp.getCurrentItem()));
-                startActivity(intent);
+                // 編集画像List番号
+                intent.putExtra("editImageNumber",vp.getCurrentItem());
+                changeNumber = vp.getCurrentItem();
+                startActivityForResult(intent,REQUEST_PAINT);
             }
             // 写真List無し
             else {

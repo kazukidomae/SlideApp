@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -17,6 +18,7 @@ import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -49,25 +51,24 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     Paint mPaint;
     Path mPath;
 
-    Bitmap testBitmap;
-    Canvas testCanvas;
+    Bitmap originBitmap;
+    Canvas originCanvas;
 
+    Bitmap editBitmap;
     Canvas drawCanvas;
 
     String imagePass;
+    String afterChangeImagePass;
+
     Uri uri;
 
+    int sizeX,sizeY;
     int r,g,b,sw; // 描画線設定
 
     // 途中経過
     private Deque<Path> mUndoStack = new ArrayDeque<Path>();
     List<Path> pathList;
     List<Paint> paintList;
-
-    // テスト
-    Bitmap test;
-
-    int sizeX,sizeY;
 
     public EditSurfaceView(Context context){
         super(context);
@@ -142,20 +143,20 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-        test.recycle();
+        editBitmap.recycle();
     }
 
     private void clearLastDrawBitmap() {
         // Bitmap変換
         uri = Uri.parse(imagePass);
         try {
-            testBitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(),uri);
-            test = Bitmap.createScaledBitmap(testBitmap.copy(Bitmap.Config.ARGB_8888,true), sizeX, sizeY, true);
-            testBitmap.recycle();
+            originBitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(),uri);
+            editBitmap = Bitmap.createScaledBitmap(originBitmap.copy(Bitmap.Config.ARGB_8888,true), sizeX, sizeY, true);
+            originBitmap.recycle();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        testCanvas = new Canvas(test);
+        originCanvas = new Canvas(editBitmap);
         drawCanvas =  holder.lockCanvas();
         drawingImage();
         holder.unlockCanvasAndPost(drawCanvas);
@@ -188,7 +189,7 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     private void onTouchUp(float x, float y) {
         mPath.lineTo(x, y);
         drawLine(mPath);
-        testCanvas.drawPath(mPath, mPaint);
+        originCanvas.drawPath(mPath, mPaint);
         pathList.add(mPath);
         paintList.add(mPaint);
     }
@@ -218,7 +219,7 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
             // パスを描画
             for (int i = 0; i < pathList.size(); i++) {
                 drawCanvas.drawPath(pathList.get(i), paintList.get(i));
-                testCanvas.drawPath(pathList.get(i), paintList.get(i));
+                originCanvas.drawPath(pathList.get(i), paintList.get(i));
             }
             holder.unlockCanvasAndPost(drawCanvas);
         }
@@ -227,18 +228,17 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     // 画像描画
     private void drawingImage (){
         // 位置調整
-        drawCanvas.translate((drawCanvas.getWidth()-test.getWidth())/2,(drawCanvas.getHeight()-test.getHeight())/2);
-        drawCanvas.drawBitmap(test,0,0,null);
+        drawCanvas.translate((drawCanvas.getWidth()-editBitmap.getWidth())/2,(drawCanvas.getHeight()-editBitmap.getHeight())/2);
+        drawCanvas.drawBitmap(editBitmap,0,0,null);
     }
 
     // 画像保存
     public void storage(){
 
-        File dataDir = new File(Environment.getExternalStorageDirectory(), "sampleDir");
+        File dataDir = new File(Environment.getExternalStorageDirectory(), "GraffitiCollection");
         dataDir.mkdirs();
-        String fileNumber = String.valueOf(new Random().nextInt(100000000));
-        //File filePath = new File(dataDir,"sample"+fileNumber+".jpg");
-        File filePath = new File(dataDir,getNowData()+".jpg");
+        afterChangeImagePass = getNowData()+"jpg";
+        File filePath = new File(dataDir,afterChangeImagePass);
         OutputStream os= null;
         try {
             os = new FileOutputStream(filePath);
@@ -246,7 +246,7 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
             e.printStackTrace();
         }
 
-        test.compress(Bitmap.CompressFormat.JPEG, 100, os);
+        editBitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
 
         try {
             ContentValues values = new ContentValues();
@@ -259,9 +259,20 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         }
     }
 
+    // 日付取得
     public static String getNowData() {
-        final DateFormat df = new SimpleDateFormat("yyy/mm/dd HH:mm:ss");
+        final DateFormat df = new SimpleDateFormat("yyy_mm_dd_HH_mm:ss");
         final Date date = new Date(System.currentTimeMillis());
         return df.format(date);
+    }
+
+    // 編集後画像取得
+    public String justBeforeImage(){
+        // 写真保存
+        storage();
+        // 直前に保存した写真取得
+        File file = new File("storage/emulated/0/GraffitiCollection/"+afterChangeImagePass);
+        String uri = Uri.fromFile(file).toString();
+        return uri;
     }
 }

@@ -39,6 +39,7 @@ public class PaintActivity extends Activity {
     EditSurfaceView esf;
     RadioGroup rgColor;
     View menuView;
+    Intent intent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,13 +50,13 @@ public class PaintActivity extends Activity {
         // SurfaceView
         SurfaceView surface;
         surface = (SurfaceView)findViewById(R.id.editArea);
-        Intent intent = getIntent();
+        intent = getIntent();
         esf = new EditSurfaceView(this, surface,intent.getStringExtra("editImage"));
 
         // 隠しメニュー
         // 写真差し替えボタン
         Button changeImageBtn = (Button)findViewById(R.id.changeImage);
-        changeImageBtn.setOnClickListener(storageImage);
+        changeImageBtn.setOnClickListener(changeImage);
         // 保存ボタン
         Button saveBtn = (Button)findViewById(R.id.saveImage);
         saveBtn.setOnClickListener(storageImage);
@@ -141,7 +142,6 @@ public class PaintActivity extends Activity {
             }
         });
 
-
         // 線幅変更
         SeekBar sb = (SeekBar)findViewById(R.id.strokeWidthBar);
         sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -211,6 +211,16 @@ public class PaintActivity extends Activity {
             esf.storage();
             DialogFragment sd = new StorageDialog();
             sd.show(getFragmentManager(),"");
+        }
+    });
+
+    // 写真差し替え
+    public View.OnClickListener changeImage = (new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            new MainActivity().images.set(intent.getIntExtra("editImageNumber",1),esf.justBeforeImage());
+            DialogFragment cid = new ChangeImageDialog();
+            cid.show(getFragmentManager(),"");
         }
     });
 
