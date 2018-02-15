@@ -8,8 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="radioButtonStyle" parent="android:Widget.CompoundButton.RadioButton">
-        <item name="android:background">@drawable/radiobutton_style</item>
+    <!-- Dialog -->
+    <style name="DialogMessage" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/dialogTextColor</item>
     </style>
 
 </resources>

@@ -3,4 +3,33 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!-- DialogText -->
+    <color name="dialogTextColor">#ffc0c0c0</color>
+
+    <!-- menu -->
+    <color name="menuBackground">#af000000</color>
+    <color name="menuText">#ffc0c0c0</color>
+
+    <!-- SeekBer -->
+    <color name="seekBerColor">#ffc0c0c0</color>
+    <color name="seekBerColorBack">#5fc0c0c0</color>
+
+    <!-- RadioButton -->
+    <color name="color1">#000000</color>
+    <color name="color2">#ffffff</color>
+    <color name="color3">#808080</color>
+    <color name="color4">#ff0000</color>
+    <color name="color5">#ff7f00</color>
+    <color name="color6">#ffff00</color>
+    <color name="color7">#7fff00</color>
+    <color name="color8">#00ff00</color>
+    <color name="color9">#00ff7f</color>
+    <color name="color10">#00ffff</color>
+    <color name="color11">#007fff</color>
+    <color name="color12">#0000ff</color>
+    <color name="color13">#7f00ff</color>
+    <color name="color14">#ff00ff</color>
+    <color name="color15">#ff007f</color>
+
 </resources>
