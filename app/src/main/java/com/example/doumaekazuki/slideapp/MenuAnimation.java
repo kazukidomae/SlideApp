@@ -16,24 +16,25 @@ public class MenuAnimation extends RelativeLayout{
     Context context;
     Animation inAnimation;
     Animation outAnimation;
+
     public MenuAnimation(Context context) {
         super(context);
         this.context = context;
+
         // メニューアニメーション
         inAnimation = (Animation) AnimationUtils.loadAnimation(context, R.anim.in_animation);
         outAnimation= (Animation) AnimationUtils.loadAnimation(context, R.anim.out_animation);
     }
 
-    public void animation(View view){
-        if(view.getVisibility() == View.GONE){
-            // 開く
-            view.startAnimation(inAnimation);
-            view.setVisibility(View.VISIBLE);
-        }
-        else {
-            // 閉じる
-            view.startAnimation(outAnimation);
-            view.setVisibility(View.GONE);
-        }
+    // メニューオープン
+    public void openAnimation(View view){
+        view.startAnimation(inAnimation);
+        view.setVisibility(View.VISIBLE);
+    }
+
+    // メニュークローズ
+    public void closeAnimation(View view){
+        view.startAnimation(outAnimation);
+        view.setVisibility(View.GONE);
     }
 }
