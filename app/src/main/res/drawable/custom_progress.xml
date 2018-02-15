@@ -2,8 +2,12 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@android:id/background">
         <shape android:shape="rectangle">
+
             <corners android:radius="8dp" />
+            <solid android:color="@color/seekBerColorBack"/>
+
         </shape>
+        <color android:color="@color/seekBerColorBack"/>
     </item>
     <item android:id="@android:id/progress">
         <clip>
