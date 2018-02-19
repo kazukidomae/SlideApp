@@ -41,6 +41,9 @@ public class PaintActivity extends Activity {
     View menuView;
     Intent intent;
 
+    DialogStationery ds;
+    DialogText dt;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +79,9 @@ public class PaintActivity extends Activity {
         // 保存ボタン
         ImageButton storageBtn = (ImageButton)findViewById(R.id.storageButton);
         storageBtn.setOnClickListener(storageMenu);
+
+        ds = new DialogStationery();
+        dt = new DialogText();
 
         // 線色変更
         rgColor = (RadioGroup)findViewById(R.id.colorPicker);
@@ -159,7 +165,6 @@ public class PaintActivity extends Activity {
                 esf.paint();
             }
         });
-
     }
 
     // RGB変換
@@ -209,8 +214,8 @@ public class PaintActivity extends Activity {
         @Override
         public void onClick(View view) {
             esf.storage();
-            DialogFragment sd = new StorageDialog();
-            sd.show(getFragmentManager(),"");
+            ds.setArguments(dt.dialogMessage("写真を保存しました"));
+            ds.show(getFragmentManager(),"");
         }
     });
 
@@ -219,8 +224,8 @@ public class PaintActivity extends Activity {
         @Override
         public void onClick(View view) {
             new MainActivity().images.set(intent.getIntExtra("editImageNumber",1),esf.justBeforeImage());
-            DialogFragment cid = new ChangeImageDialog();
-            cid.show(getFragmentManager(),"");
+            ds.setArguments(dt.dialogMessage("写真を差し替えました"));
+            ds.show(getFragmentManager(),"");
         }
     });
 
@@ -250,5 +255,4 @@ public class PaintActivity extends Activity {
             menuView = null;
         }
     }
-
 }

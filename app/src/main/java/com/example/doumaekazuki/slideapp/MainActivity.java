@@ -31,8 +31,12 @@ public class MainActivity extends FragmentActivity {
     public static List<String> images = new ArrayList<String>();
     private static int changeNumber;
     WallpaperManager wm;
+
     private static final int REQUEST_CODE = 1001;
     private static final int REQUEST_PAINT = 1002;
+
+    DialogStationery ds;
+    DialogText dt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +75,8 @@ public class MainActivity extends FragmentActivity {
         otherwiseBtn.setOnClickListener(otherwiseMenuOpen);
 
         wm = WallpaperManager.getInstance(this);
+        ds = new DialogStationery();
+        dt = new DialogText();
     }
 
     public void setItem(int item){
@@ -148,9 +154,8 @@ public class MainActivity extends FragmentActivity {
             }
             // 画像リスト無し
             else if(view.getId() == R.id.imageAdd && images.isEmpty()){
-                // メッセージ表示
-                DialogFragment iem = new ImageEmptyDialog();
-                iem.show(getFragmentManager(),"");
+                ds.setArguments(dt.dialogMessage("写真がセットされていません"));
+                ds.show(getFragmentManager(),"");
                 return;
             }
             // ギャラリー呼び出し
@@ -173,8 +178,6 @@ public class MainActivity extends FragmentActivity {
         super.onActivityResult(requestCode, resultCode, data);
         // ギャラリーからのResult
         if(requestCode == REQUEST_CODE && resultCode ==RESULT_OK){
-
-            System.out.println("aaa"+"通過");
 
             // 複数選択
             if(data.getClipData() != null){
@@ -217,9 +220,8 @@ public class MainActivity extends FragmentActivity {
             }
             // 写真List無し
             else {
-                // メッセージ表示
-                DialogFragment iem = new ImageEmptyDialog();
-                iem.show(getFragmentManager(),"");
+                ds.setArguments(dt.dialogMessage("写真がセットされていません"));
+                ds.show(getFragmentManager(),"");
                 return;
             }
         }
@@ -231,8 +233,8 @@ public class MainActivity extends FragmentActivity {
         public void onClick(View view) {
             if(!images.isEmpty()) {
                 Uri uri = Uri.parse(images.get(vp.getCurrentItem()));
-                DialogFragment wd = new WallpaperDialog();
-                wd.show(getFragmentManager(), "");
+                ds.setArguments(dt.dialogMessage("壁紙を変更しました"));
+                ds.show(getFragmentManager(),"");
                 try {
                     wm.setBitmap(Bitmap.createScaledBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), uri), wm.getDesiredMinimumWidth(), wm.getDesiredMinimumHeight(), true));
                 } catch (IOException e) {
@@ -242,8 +244,8 @@ public class MainActivity extends FragmentActivity {
             // 写真List無し
             else {
                 // メッセージ表示
-                DialogFragment iem = new ImageEmptyDialog();
-                iem.show(getFragmentManager(),"");
+                ds.setArguments(dt.dialogMessage("写真がセットされていません"));
+                ds.show(getFragmentManager(),"");
                 return;
             }
         }
@@ -257,28 +259,28 @@ public class MainActivity extends FragmentActivity {
             // 一件削除
             if(images.size() != 0 && view.getId() == R.id.singleDelete) {
                 int fragmentPosition = vp.getCurrentItem();
-                // 画像削除
                 images.remove(fragmentPosition);
                 adapterSet();
-                DialogFragment dd = new DeleteDialog();
-                dd.show(getFragmentManager(),"");
+                ds.setArguments(dt.dialogMessage("写真を削除しました"));
+                ds.show(getFragmentManager(),"");
                 vp.setCurrentItem(fragmentPosition-1);
             }
             // 全削除
             else if(images.size() != 0 && view.getId() == R.id.allDelete) {
                 images.clear();
                 adapterSet();
-                DialogFragment dd = new DeleteDialog();
-                dd.show(getFragmentManager(),"");
+                ds.setArguments(dt.dialogMessage("全ての写真を削除しました"));
+                ds.show(getFragmentManager(),"");
             }
             else {
                 // メッセージ表示
-                DialogFragment iem = new ImageEmptyDialog();
-                iem.show(getFragmentManager(),"");
+                ds.setArguments(dt.dialogMessage("写真がセットされていません"));
+                ds.show(getFragmentManager(),"");
                 return;
             }
         }
     });
+
 
     // アダプターセット
     public void adapterSet(){
