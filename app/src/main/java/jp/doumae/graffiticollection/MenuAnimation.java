@@ -1,4 +1,4 @@
-package com.example.doumaekazuki.slideapp;
+package jp.doumae.graffiticollection;
 
 import android.content.Context;
 import android.view.ContextMenu;
@@ -32,7 +32,7 @@ public class MenuAnimation extends RelativeLayout{
         view.setVisibility(View.VISIBLE);
     }
 
-    // メニュークローズ
+    // メニュークローズhfr
     public void closeAnimation(View view){
         view.startAnimation(outAnimation);
         view.setVisibility(View.GONE);

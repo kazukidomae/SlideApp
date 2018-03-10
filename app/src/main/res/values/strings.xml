@@ -2,4 +2,6 @@
     <string name="app_name">GraffitiCollection</string>
     <string name="button_name_edit">Edit</string>
     <string name="button_name_slide">Slide</string>
+
+    <string name="createNew">新規作成</string>
 </resources>

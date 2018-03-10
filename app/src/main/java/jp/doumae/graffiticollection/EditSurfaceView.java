@@ -1,8 +1,10 @@
-package com.example.doumaekazuki.slideapp;
+package jp.doumae.graffiticollection;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -18,7 +20,10 @@ import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v4.content.pm.ActivityInfoCompat;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -36,9 +41,10 @@ import java.util.Date;
 import java.util.Deque;
 import java.util.List;
 import java.util.Random;
+import java.util.jar.Manifest;
 
 
-//import static com.example.doumaekazuki.slideapp.R.layout.paint;
+//import static jp.doumae.graffiticollection.R.layout.paint;
 
 /**
  * Created by doumae.kazuki on 2018/01/16.
@@ -148,6 +154,9 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     private void clearLastDrawBitmap() {
         // Bitmap変換
+
+        System.out.println("aaa"+imagePass);
+
         uri = Uri.parse(imagePass);
         try {
             originBitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(),uri);
@@ -233,46 +242,60 @@ public class EditSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     }
 
     // 画像保存
-    public void storage(){
+    public String storage(){
 
-        File dataDir = new File(Environment.getExternalStorageDirectory(), "GraffitiCollection");
-        dataDir.mkdirs();
-        afterChangeImagePass = getNowData()+"jpg";
-        File filePath = new File(dataDir,afterChangeImagePass);
-        OutputStream os= null;
-        try {
-            os = new FileOutputStream(filePath);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        String message;
+
+        if(ContextCompat.checkSelfPermission(getContext(),android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            // ストレージ許可
+            File dataDir = new File(Environment.getExternalStorageDirectory(), "GraffitiCollection");
+            dataDir.mkdirs();
+            afterChangeImagePass = new Tools().getNowData()+"jpg";
+            File filePath = new File(dataDir,afterChangeImagePass);
+            OutputStream os= null;
+            try {
+                os = new FileOutputStream(filePath);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            editBitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+
+            try {
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
+                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+                values.put(MediaStore.MediaColumns.DATA, filePath.getAbsolutePath());
+                getContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            message = "保存しました";
+        }
+        else {
+            message =  "アプリを許可して下さい";
         }
 
-        editBitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
-
-        try {
-            ContentValues values = new ContentValues();
-            values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
-            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-            values.put(MediaStore.MediaColumns.DATA, filePath.getAbsolutePath());
-            getContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    // 日付取得
-    public static String getNowData() {
-        final DateFormat df = new SimpleDateFormat("yyy_mm_dd_HH_mm:ss");
-        final Date date = new Date(System.currentTimeMillis());
-        return df.format(date);
+        return message;
     }
 
     // 編集後画像取得
-    public String justBeforeImage(){
+    public String[] justBeforeImage(){
+        String re[] = new String[2];
+
         // 写真保存
-        storage();
-        // 直前に保存した写真取得
-        File file = new File("storage/emulated/0/GraffitiCollection/"+afterChangeImagePass);
-        String uri = Uri.fromFile(file).toString();
-        return uri;
+        String message = storage();
+        if(message.equals("保存しました")){
+            // 直前に保存した写真取得
+            File file = new File("storage/emulated/0/GraffitiCollection/"+afterChangeImagePass);
+            re[0] = "写真を差し替えました。";
+            re[1]= Uri.fromFile(file).toString();
+        }
+        else {
+            re[0] = "アプリを許可して下さい" ;
+            re[1] = imagePass;
+        }
+        return re;
     }
+
 }

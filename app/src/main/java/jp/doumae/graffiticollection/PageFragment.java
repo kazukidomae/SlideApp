@@ -1,4 +1,4 @@
-package com.example.doumaekazuki.slideapp;
+package jp.doumae.graffiticollection;
 
 import android.app.WallpaperManager;
 import android.graphics.Bitmap;
@@ -38,7 +38,7 @@ public class PageFragment extends Fragment{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mValue = getArguments() != null ? getArguments().getString("image") : "pic17";
+        mValue = getArguments() != null ? getArguments().getString("image") : "test";
     }
 
     @Override
@@ -54,13 +54,12 @@ public class PageFragment extends Fragment{
 
             //画像サイズ変更
             Matrix matrix = new Matrix();
-            matrix.setScale(0.25f,0.25f);
+            matrix.setScale(0.5f,0.5f);
 
             iv.setImageBitmap(Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(),matrix,true));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return view;
     }
 }

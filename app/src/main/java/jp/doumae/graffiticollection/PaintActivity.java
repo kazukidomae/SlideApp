@@ -1,4 +1,4 @@
-package com.example.doumaekazuki.slideapp;
+package jp.doumae.graffiticollection;
 
 import android.app.Activity;
 import android.app.DialogFragment;
@@ -213,8 +213,8 @@ public class PaintActivity extends Activity {
     public View.OnClickListener storageImage = (new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            esf.storage();
-            ds.setArguments(dt.dialogMessage("写真を保存しました"));
+            //esf.storage();
+            ds.setArguments(dt.dialogMessage(esf.storage()));
             ds.show(getFragmentManager(),"");
         }
     });
@@ -223,8 +223,12 @@ public class PaintActivity extends Activity {
     public View.OnClickListener changeImage = (new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            new MainActivity().images.set(intent.getIntExtra("editImageNumber",1),esf.justBeforeImage());
-            ds.setArguments(dt.dialogMessage("写真を差し替えました"));
+
+            String re[] = new String[2];
+            re = esf.justBeforeImage();
+
+            new MainActivity().images.set(intent.getIntExtra("editImageNumber",1),re[1]);
+            ds.setArguments(dt.dialogMessage(re[0]));
             ds.show(getFragmentManager(),"");
         }
     });

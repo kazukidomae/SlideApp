@@ -1,4 +1,4 @@
-package com.example.doumaekazuki.slideapp;
+package jp.doumae.graffiticollection;
 
 import android.content.Context;
 
